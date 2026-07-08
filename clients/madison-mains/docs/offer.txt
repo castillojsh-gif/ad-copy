@@ -1,0 +1,65 @@
+
+DAY 2: OFFER
+
+ONE-SENTENCE GUARANTEE OFFER WITH RISK REVERSAL
+This should be the exact language you plan to lead with in your consumer-facing marketing.
+Please enter your offer and risk reversal below:
+"We guarantee every client you hand us is fully onboarded and live within 7 business days — or we keep working until they are, at no additional charge."
+
+"Stop losing hours manually setting up every client in GoHighLevel. We handle your entire client onboarding — done for you, done right, done in 7 days."
+
+
+CONTINGENCIES:
+What conditions must be met by the client to qualify for the guarantee?
+(Example: minimum ad spend, offer approval, minimum appointment slots per week, minimum LTV, lead follow-up process, pipeline management, minimum billing cycles, minimum close rate)
+
+"This guarantee applies when the client:
+Is actively on the Grow Retainer ($1,500/month) — per-client fulfillment is not available as a standalone service
+Has completed The Foundation Month — our system audit and onboarding overhaul must be finished before client fulfillment begins
+Provides all required assets, credentials, and information within 2 business days of request — delays pause the guarantee clock
+Has granted admin access to admin@mains.marketing in their GoHighLevel account prior to fulfillment start
+A2P registration runs in parallel and is explicitly excluded from the 7-day window. Carrier approval timelines are outside our control. All other onboarding deliverables — domain setup, calendar connections, snapshot install, SMS/email activation, and landing page — are guaranteed live within 7 business days."
+
+
+WHY THIS OFFER:
+Explain the logic behind this offer and how you arrived at this structure.
+"Mains Marketing is a white label GoHighLevel fulfillment partner for B2B agency owners. Our ideal client is an established agency — doing $20k–$100k/month — that uses GHL to deliver for their clients and is manually setting up every new client themselves or managing an offshore team that lacks accountability and critical thinking on edge cases.
+
+The problem is not that they lack GHL knowledge. The problem is that their fulfillment process is inconsistent, founder-dependent, and breaks at volume. Every new client they onboard is a manual project. They cannot scale because the bottleneck is the setup process itself.
+
+The 7-day fulfillment guarantee works because we control the deliverable completely. We are not promising marketing results that depend on close rates, ad spend, or their offer. We are promising a clean, professional client setup — a repeatable operational outcome that our team executes the same way every time.
+
+This guarantee is only possible because of The Foundation Month. Before we touch a single client account, we spend 30 days auditing their GHL, overhauling their onboarding system, and building the internal documentation that lets our team execute without guessing. By the time we go live, we already know their system inside and out.
+
+At $3,500 for The Foundation Month and $1,500/month retainer plus $500 per client, the math works for any agency onboarding 2 or more clients per month. Most of our target clients are onboarding 4–12 new clients monthly — making this a straightforward ROI conversation, not a cost conversation."
+
+
+OTHER OFFERS:
+Share any competing offers you were able to find, as well as any offers you’ve previously run in this niche.
+"Competing offers in this space include:
+Freelance GHL specialists — typically $50–$150/hour, no structured methodology, no guaranteed outcome, high inconsistency in delivery quality. No Foundation Month, no audit, no warranty.
+GHL certified partners — offer subaccount builds and snapshot installs but no ongoing fulfillment partnership, no retainer model, no client warranty, and no internal documentation for the agency.
+Offshore VA teams — lower cost but the exact problem our ideal clients are already trying to escape. No critical thinking on edge cases, no accountability, high variance per client (the "20% variance" problem we hear repeatedly on sales calls).
+General marketing agencies — full-service but not specialized in GHL backend infrastructure or agency-to-agency fulfillment.
+Previously run offers by Mains Marketing: 90-day sprint at $6,500–$7,500, focused on onboarding and fulfillment builds for individual agency owners. Strong results but positioned as a one-time project. The new white label fulfillment model shifts the positioning entirely — we are not a project vendor, we are an ongoing operational partner. The sprint still exists as a fork in the road for agencies that need a full build before fulfillment can begin, but it is no longer the lead offer."ascension."
+
+
+
+
+Version 1 — Fulfillment-led:
+"We are the white label GoHighLevel fulfillment team agency owners plug into when they are ready to stop setting up clients themselves."
+Version 2 — Pain-led:
+"We help GHL agency owners onboard clients faster, more consistently, and without touching the setup themselves — so they can focus on growing, not operating."
+Version 3 — Guarantee-led:
+"We guarantee every client you hand us is fully onboarded in GoHighLevel within 7 business days — or we keep working until they are, at no charge."
+
+
+
+
+
+Note:
+This worksheet is not a final decision. It is an initial evaluation step designed to clarify your thinking and narrow your focus.
+
+All offer details submitted here will be reviewed by the Limitless team before any final direction is confirmed.
+
+
