@@ -56,3 +56,20 @@ terminology.
 - **Skill as final gate**: `final-package-review` runs on every package and after every revision round.
   Its two deliberate exceptions this session: client's own documented wedge line may keep a banned shape
   (flag it); numbered-list devices (Fact one/two/three, #1-#5) are exempt from the first-word rule.
+
+## 2026-07-08 — Madison Mains session (B2B agency owners / GHL white label fulfillment)
+
+- **BANNED WORD: "picture."** Never open a future-state beat with "Picture..." (rotate the hook-bank
+  "Picture 90 days from now" variant OUT). Enter future states directly in present tense instead
+  ("The agreement comes back signed while you are on your next sales call").
+- **Social Proof primary text = ideally 3 straight case studies**, stacked as short proof blocks,
+  not a blended authority essay. Use only the stories that earn their place, not every story in the docs.
+- **Script 1 must open on the exact trigger moment the pain begins**, not a summary of the situation.
+  "You signed a client this afternoon" fell flat; "The Stripe notification hits: new client signed"
+  landed. Find the niche's version of the notification/doorbell moment.
+- **Tribal density bar is higher than it feels.** For GHL agencies the real vocabulary: Stripe
+  notification, subaccount, snapshot load, tag fixes, DNS records, double-booked calendars,
+  spot-checking a VA's build, build-out, go-live, getting pinged. First-pass copy read as
+  half-tribal; the user flagged it package-wide.
+- **Installation guarantee (Abe Chomali pattern) worked again**: results-thin client, guarantee-led
+  hybrid with operator authority underneath, audit-first logic as the reason the number is possible.
