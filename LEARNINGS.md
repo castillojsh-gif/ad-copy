@@ -73,3 +73,7 @@ terminology.
   half-tribal; the user flagged it package-wide.
 - **Installation guarantee (Abe Chomali pattern) worked again**: results-thin client, guarantee-led
   hybrid with operator authority underneath, audit-first logic as the reason the number is possible.
+- **EXPLICIT market callout in the first two lines of every script AND primary text.** A lived scene
+  alone does not count as a callout; the avatar must be named ("If you run a B2B agency on
+  GoHighLevel...", "Agency owners:", "A question for the agency owner who..."). Vary the construction
+  per asset, never copy-paste the same callout. Missed on first delivery here; user caught it.

@@ -8,7 +8,7 @@
 
 ### SCRIPT 1 — PAIN-POINT
 
-The Stripe notification hits: new client signed. An hour later the high wears off, because their subaccount is sitting empty and nobody is going to build it but you.
+The Stripe notification hits: new client signed. If you run a B2B agency on GoHighLevel, you know what comes after the high wears off: their subaccount is sitting empty, and nobody is going to build it but you.
 
 Tonight looks like every other build-out: load the snapshot, rebuild the tags it broke, connect the calendars, and test every workflow twice because one always misfires.
 
@@ -28,7 +28,7 @@ If you are onboarding 2+ new clients a month, book a call. We will show you exac
 
 ### SCRIPT 2 — PUT-US-TO-WORK / FUTURE STATE
 
-Hand us the next client you sign, and from the moment their contract fires, you never touch their subaccount.
+Agency owners: hand us the next client you sign, and from the moment their contract fires, you never touch their subaccount.
 
 The welcome sequence goes out on its own and the kickoff books itself onto the calendar. Your team gets pinged, and mine gets to work.
 
@@ -48,7 +48,7 @@ Book a call and show us how your setups run today. If we cannot run them faster 
 
 ### SCRIPT 3 — PROBLEM-RECOGNITION
 
-You did what every agency coach says to do. You wrote the SOPs and recorded the Looms, then handed your setups to a VA.
+You run an agency on GoHighLevel, and you did what every agency coach says to do. You wrote the SOPs and recorded the Looms, then handed your setups to a VA.
 
 And last night you were still inside a subaccount at 11pm, spot-checking their build, because the last one went live with broken automations and a calendar that double-books.
 
@@ -68,7 +68,7 @@ Book a call and bring the last setup that went sideways. We will map where it br
 
 ### SCRIPT 4 — AUTHORITY
 
-I have been inside the GoHighLevel accounts of B2B agencies doing anywhere from $10k to $100k a month.
+If you own a B2B agency doing anywhere from $10k to $100k a month, I have probably been inside a GoHighLevel account that looks like yours.
 
 Different niches, different offers, and the same pattern under the hood: the founder is the only one who knows how everything is wired, so the founder does every setup personally.
 
@@ -88,7 +88,7 @@ If your agency is onboarding 2+ new clients a month, book a call and put your ac
 
 ### SCRIPT 5 — ASPIRATION / IDENTITY
 
-What if signing a new client created zero setup work for your agency?
+A question for the agency owner who still builds every client account: what if signing a new client created zero setup work?
 
 The agreement comes back signed while you are on your next sales call. The welcome email is already in their inbox and the kickoff is on their calendar. My team is building before you hang up.
 
@@ -120,7 +120,7 @@ The next client you sign could be the first one you never set up. Book a call be
 
 ### PT1 — ULTRA SHORT
 
-Your agency grows as fast as you can onboard, not as fast as you can sell.
+B2B agency owners on GoHighLevel: your agency grows as fast as you can onboard, not as fast as you can sell.
 
 Hand us your clients instead. My team runs every GoHighLevel build end to end through The Ascend Method™, with your brand on every touchpoint.
 
@@ -156,7 +156,7 @@ If you are onboarding 2+ new clients a month, book a call. Show us how setups ru
 
 ### PT3 — LONG-FORM VAR 3
 
-Growing an agency on GoHighLevel carries a hidden tax: every client you close, someone has to build. For most of the owners who call us, that someone is still them.
+Growing an agency on GoHighLevel carries a hidden tax, and if you own one, you are probably paying it: every client you close, someone has to build.
 
 The Ascend Method™ takes the build off your plate in three steps.
 
@@ -176,7 +176,7 @@ Book a call and we will walk your account together, so you see what the audit wo
 
 ### PT4 — PROBLEM-FIRST
 
-Another contract signed, and you already know where tonight goes: their subaccount.
+Agency owner, another contract signed, and you already know where tonight goes: their subaccount.
 
 The snapshot, the DNS records, the calendars, the tags, the landing page: call it 3 to 4 hours if nothing breaks, and something usually breaks.
 
@@ -194,7 +194,7 @@ Book a call and bring the setup checklist you use today. If our process does not
 
 ### PT5 — SOCIAL PROOF
 
-Three stories from agencies that handed us their GoHighLevel fulfillment.
+For the B2B agency owners wondering if this actually works: three stories from agencies that handed us their GoHighLevel fulfillment.
 
 One owner came to us with a 12-step manual onboarding: follow-up emails chasing the client for assets, and 3 to 5 days before anything was actually set up. After we built their Onboarding Engine, their next client was fully live in under 7 days, with zero manual work from the founder.
 
