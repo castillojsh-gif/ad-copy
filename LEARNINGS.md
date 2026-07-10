@@ -71,3 +71,16 @@ terminology.
   aesthetic-casual emoji ceiling (one ✨ max).
 - When client proof is aesthetic-only (portfolio, no numbers): lead social proof with the client roster
   as a credits-roll list + one verbatim testimonial quote, founders' insider story underneath.
+
+## 2026-07-08 — Ashley Elkins session (cosmetic dental)
+
+- **DRAFT AT MAXIMUM TRIBAL DENSITY ON THE FIRST PASS.** Jack, Raquel, and Ashley all came back with
+  "more tribal language" as the first revision. The bar: insider-only vocabulary the owner uses with
+  staff, not just industry nouns. Dental example: morning huddle, doctor column vs hygiene column,
+  case acceptance, wax-ups, production, treatment coordinator — not just "dentist" and "patients."
+  Build the vocabulary list BEFORE writing and spend it.
+- Empty credibility section → Insider Authority carries the social proof slot (Abe pattern). Provide the
+  user a copy-paste ask for the client (named practice + one number, or a testimonial quote) with the
+  upgrade path stated.
+- Number conflicts can live inside the client's own sales scripts (40 in offer doc vs stale 20 in
+  mechanism script) — flag both directions: fix the copy AND tell the client to fix the script.
