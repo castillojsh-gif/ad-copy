@@ -58,7 +58,9 @@ Key companion files (read when relevant):
 - Contingencies (spend minimums, slots, CRM requirements) stay OFF the ad. The ad's only job is the booked call.
 - CTAs give a niche-specific reason to book, varied across assets. Never repeat "click below and book a call."
 - Vary structured hooks across clients (rotate "give us 90 days" / "hand me your next 30 days" /
-  "picture 90 days from now"). Use `HOOK_BANKS.md` — one structure per asset, no repeats within a package.
+  "this is your business 90 days from now"). **BANNED: the "Picture this" / "Picture X from now" /
+  "Imagine..." opener concept — retired permanently.** Use `HOOK_BANKS.md` — one structure per asset,
+  no repeats within a package.
 - No agency-blame / no media-buyer-blame — we ARE an agency. BUT keep the contrast when it is the client's
   GENUINE wedge (operator-vs-agency, insider background). Strip only gratuitous bashing.
 - Numbers format: "70+" not "70 plus"; "$10M+" not "$10 million plus"; consistent within a package.

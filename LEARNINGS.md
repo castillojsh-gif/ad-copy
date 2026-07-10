@@ -56,3 +56,18 @@ terminology.
 - **Skill as final gate**: `final-package-review` runs on every package and after every revision round.
   Its two deliberate exceptions this session: client's own documented wedge line may keep a banned shape
   (flag it); numbered-list devices (Fact one/two/three, #1-#5) are exempt from the first-word rule.
+- **The skill runs as a STANDALONE deliberate pass after every revision round, never inline.** An inline
+  sweep during the Raquel revision missed 6 violations that the full six-pass run caught.
+
+## 2026-07-08 — Raquel Bickford session (wedding vendors)
+
+- **BANNED OPENER CONCEPT: "Picture this" / "Picture 90 days from now" / "Imagine..."** — retired
+  permanently across all clients (user flagged it appearing in Raquel's and several recent packages).
+  Future-state scripts open declaratively instead: "This is your business 90 days from now."
+- Guarantee spines can be sharpened with the user mid-process: "20 new couples" became
+  "20 new qualified couple inquiries" + support line, aligning the promise with what the agency
+  actually controls (opportunities, not closings).
+- Warm/insecure creative markets (wedding vendors): validation-first framing, no shame hooks,
+  aesthetic-casual emoji ceiling (one ✨ max).
+- When client proof is aesthetic-only (portfolio, no numbers): lead social proof with the client roster
+  as a credits-roll list + one verbatim testimonial quote, founders' insider story underneath.
