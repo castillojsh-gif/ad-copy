@@ -84,3 +84,11 @@ terminology.
   upgrade path stated.
 - Number conflicts can live inside the client's own sales scripts (40 in offer doc vs stale 20 in
   mechanism script) — flag both directions: fix the copy AND tell the client to fix the script.
+
+## 2026-07-08 — Copy Chief feedback (Thomas Ramsay package)
+
+- **NEVER MERGE MULTIPLE OFFER STATEMENTS.** When an offer doc has several versions, the one on TOP is
+  the actual offer. Pick it, don't blend. Thomas's package merged "top 3 on Google" with a
+  "top 5 on ChatGPT" promise that appeared in no offer version at all — Franbeau caught it. Blending
+  feels helpful when the client seems unsure, but the fix is to ASK which statement governs, or default
+  to the top one, never to synthesize a hybrid promise the client hasn't made.

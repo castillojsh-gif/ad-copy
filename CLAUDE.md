@@ -40,6 +40,9 @@ Key companion files (read when relevant):
 
 - **Guarantee language IDENTICAL across every asset.** Verify the number verbatim from the offer doc FIRST.
   If the doc self-contradicts, flag loudly before writing. Never guess, never average.
+- **When the offer doc contains MULTIPLE offer statements: pick ONE, never merge.** The one on TOP is
+  the actual offer (Copy Chief rule, learned on Thomas Ramsay). Do not blend elements across versions,
+  and never introduce a promise that appears in no version at all.
 - Guarantee framed from the client's perspective, always tied to its condition, never standalone.
   Default constructions: "you don't pay" / "or it's free" / "we work for free until you get them."
 - **No em-dashes** (use commas). No tricolons. No fragment stacks. No fabricated proof, stats, or stories.
