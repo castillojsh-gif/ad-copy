@@ -85,6 +85,17 @@ terminology.
 - Number conflicts can live inside the client's own sales scripts (40 in offer doc vs stale 20 in
   mechanism script) — flag both directions: fix the copy AND tell the client to fix the script.
 
+## 2026-07-08 — Process update: 3-3-3 replaces 5-5-5
+
+- New standard for all succeeding packages: 3 video scripts, 3 headlines, 3 primary texts.
+  Previous packages not yet paid out remain at P1500. Default slot selection lives in CLAUDE.md;
+  confirm slot swaps per client when their material favors a different trio.
+- **Social Proof primary text default structure** (converged across Adal/Thomas/Charles):
+  callout → hardest numbers immediately → named clients → mechanism one-liner → guarantee → CTA.
+- **Med spa language note (Charles, user edit):** "ads" replaced with "marketing" in delivered copy —
+  consistent with the Iiley-era learning that this market is ad-burned. Prefer "marketing"/"campaigns"
+  in med spa copy where "ads" isn't load-bearing.
+
 ## 2026-07-08 — Copy Chief feedback (Thomas Ramsay package)
 
 - **NEVER MERGE MULTIPLE OFFER STATEMENTS.** When an offer doc has several versions, the one on TOP is

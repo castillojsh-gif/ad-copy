@@ -35,7 +35,7 @@ Wait for my approval before writing anything.
    `HOOK_BANKS.md`. Credibility approach (results-led vs authority-led vs hybrid). Tone + tribal vocabulary
    list drafted BEFORE writing. Callout choice (how the audience self-identifies; address the owner's seat).
 5. **WAIT for approval.** Ask the numbered questions; make decisive recommendations, never guess guarantees.
-6. **Write the full 5-5-5.** Guarantee spine identical in all 15 assets. Support line (what "qualified"
+6. **Write the full 3-3-3.** Guarantee spine identical in all 9 assets. Support line (what "qualified"
    means) pulled from the offer doc's own definition and kept consistent.
 7. **Run `final-package-review` skill.** Fix, re-sweep, deliver clean with a short DELIVERY NOTES block
    (outside the package) covering judgment calls and open items for the client.

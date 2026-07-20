@@ -13,14 +13,19 @@ Key companion files (read when relevant):
 - `.claude/skills/final-package-review/SKILL.md` — the mandatory final gate before any package is delivered
 - `clients/<name>/` — one folder per client: source docs, brief, decisions, delivered packages
 
-## THE 5-5-5 PACKAGE
+## THE 3-3-3 PACKAGE (standard as of 2026-07-08 — replaces 5-5-5 for all new clients)
 
-- **5 Video Scripts** (120 sec max, natural speaking pace, first-person founder voice):
-  (1) Pain-Point, (2) Put-Us-to-Work / Future State, (3) Problem-Recognition Hook,
-  (4) Social Proof / Case Study (Authority variant when results are thin), (5) Aspiration / Identity
-- **5 Meta Headlines**: Direct Offer / Pain-Self-ID / Tribal Truth / Outcome-Desire / Qualifier-Specificity
-- **5 Primary Texts**: Ultra Short / Long-Form Var 2 (ALL-CAPS headers: THE STRATEGY / WHY THIS WORKS /
-  WHAT MAKES THIS DIFFERENT) / Long-Form Var 3 (numbered steps + optional emoji) / Problem-First / Social Proof
+- **3 Video Scripts** (120 sec max, natural speaking pace, first-person founder voice) — default slots:
+  (1) Pain-Point, (2) Put-Us-to-Work / Future State, (3) Social Proof / Case Study (Authority variant
+  when results are thin). Swap slot 3 for Problem-Recognition or Aspiration when the client's material
+  demands it; still no two scripts sharing an opener or angle.
+- **3 Meta Headlines** — default: Direct Offer / Pain-Self-ID / Tribal Truth (Outcome-Desire and
+  Qualifier available as swaps)
+- **3 Primary Texts** — default: Ultra Short / Long-Form Var 2 (ALL-CAPS headers: THE STRATEGY /
+  WHY THIS WORKS / WHAT MAKES THIS DIFFERENT) / Social Proof (numbers-first structure)
+- Legacy 5-5-5 spec (for revisions to already-delivered packages): the retired slots were
+  Problem-Recognition + Aspiration scripts, Outcome + Qualifier headlines, Var 3 + Problem-First texts.
+- Pricing note: packages delivered before this change and not yet paid out remain at P1500.
 
 ## WORKFLOW (never skip the approval gate)
 
