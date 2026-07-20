@@ -15,16 +15,19 @@ Key companion files (read when relevant):
 
 ## THE 3-3-3 PACKAGE (standard as of 2026-07-08 — replaces 5-5-5 for all new clients)
 
-- **3 Video Scripts** (120 sec max, natural speaking pace, first-person founder voice) — default slots:
-  (1) Pain-Point, (2) Put-Us-to-Work / Future State, (3) Social Proof / Case Study (Authority variant
-  when results are thin). Swap slot 3 for Problem-Recognition or Aspiration when the client's material
-  demands it; still no two scripts sharing an opener or angle.
-- **3 Meta Headlines** — default: Direct Offer / Pain-Self-ID / Tribal Truth (Outcome-Desire and
-  Qualifier available as swaps)
-- **3 Primary Texts** — default: Ultra Short / Long-Form Var 2 (ALL-CAPS headers: THE STRATEGY /
-  WHY THIS WORKS / WHAT MAKES THIS DIFFERENT) / Social Proof (numbers-first structure)
-- Legacy 5-5-5 spec (for revisions to already-delivered packages): the retired slots were
-  Problem-Recognition + Aspiration scripts, Outcome + Qualifier headlines, Var 3 + Problem-First texts.
+- **3 Video Scripts, 3 Meta Headlines, 3 Primary Texts — each trio SELECTED PER CLIENT from the full
+  5-5-5 menu**, chosen for fit, not from a fixed default. Propose the trio with a one-line rationale in
+  the STRATEGY step so it gets approved before writing.
+- Full menu — Scripts: Pain-Point / Put-Us-to-Work-Future State / Problem-Recognition Hook /
+  Social Proof-Case Study (Authority variant when proof is thin) / Aspiration-Identity.
+  Headlines: Direct Offer / Pain-Self-ID / Tribal Truth / Outcome-Desire / Qualifier.
+  Texts: Ultra Short / Long-Form Var 2 (ALL-CAPS headers) / Long-Form Var 3 (numbered) /
+  Problem-First / Social Proof (numbers-first structure).
+- Selection heuristics: Pain-Point and Future State are near-always in. The remaining slot is judgment:
+  **Social Proof only when the client actually has proof** (many don't — Authority variant or a different
+  slot instead). **Check Problem-Recognition against Pain-Point before choosing it** — the two frequently
+  collide when their scenes share an angle; pick it only when its scene is genuinely distinct.
+  No two chosen scripts may share an opener or angle, same as always.
 - Pricing note: packages delivered before this change and not yet paid out remain at P1500.
 
 ## WORKFLOW (never skip the approval gate)
