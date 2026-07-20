@@ -35,12 +35,16 @@ Wait for my approval before writing anything.
    `HOOK_BANKS.md`. Credibility approach (results-led vs authority-led vs hybrid). Tone + tribal vocabulary
    list drafted BEFORE writing. Callout choice (how the audience self-identifies; address the owner's seat).
 5. **WAIT for approval.** Ask the numbered questions; make decisive recommendations, never guess guarantees.
-6. **Write the full 3-3-3.** Guarantee spine identical in all 9 assets. Support line (what "qualified"
-   means) pulled from the offer doc's own definition and kept consistent.
+6. **Write the full 5-5-5.** Risk-reversal clause verbatim in every asset (promise half woven per the
+   gold standard). Support line (what "qualified" means) pulled from the offer doc's own definition
+   and kept consistent.
 7. **Run `final-package-review` skill.** Fix, re-sweep, deliver clean with a short DELIVERY NOTES block
    (outside the package) covering judgment calls and open items for the client.
 8. **Iterate.** Apply each note package-wide. Re-run the pattern sweep after every revision round.
-9. **Close out.** Save final package to `clients/<name>/package_vN.md`. Append lessons to `LEARNINGS.md`.
+9. **Select the 3-3-3.** After improvements, propose the best 3 scripts + 3 headlines + 3 primary texts
+   with a one-line rationale each; user approves the delivered trio. Unselected assets stay in the
+   client folder as ready alternates.
+10. **Close out.** Save final package to `clients/<name>/package_vN.md`. Append lessons to `LEARNINGS.md`.
    Add/update the client entry in `COMPLETED_CLIENTS.md` (guarantee, pillars, angles, decisions, open items).
 
 ## Model guidance

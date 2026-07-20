@@ -15,9 +15,11 @@ Key companion files (read when relevant):
 
 ## THE 3-3-3 PACKAGE (standard as of 2026-07-08 — replaces 5-5-5 for all new clients)
 
-- **3 Video Scripts, 3 Meta Headlines, 3 Primary Texts — each trio SELECTED PER CLIENT from the full
-  5-5-5 menu**, chosen for fit, not from a fixed default. Propose the trio with a one-line rationale in
-  the STRATEGY step so it gets approved before writing.
+- **Write the FULL 5-5-5 first, then deliver the best 3-3-3.** All 15 assets get drafted, iterated,
+  and improved through the revision rounds; after improvements, the best 3 scripts, 3 headlines, and
+  3 primary texts are selected as the delivered package (selection proposed with one-line rationale,
+  user approves). The remaining assets stay in the client folder as ready alternates for testing or
+  swaps.
 - Full menu — Scripts: Pain-Point / Put-Us-to-Work-Future State / Problem-Recognition Hook /
   Social Proof-Case Study (Authority variant when proof is thin) / Aspiration-Identity.
   Headlines: Direct Offer / Pain-Self-ID / Tribal Truth / Outcome-Desire / Qualifier.
