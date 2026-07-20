@@ -51,6 +51,17 @@ Key companion files (read when relevant):
 - **When the offer doc contains MULTIPLE offer statements: pick ONE, never merge.** The one on TOP is
   the actual offer (Copy Chief rule, learned on Thomas Ramsay). Do not blend elements across versions,
   and never introduce a promise that appears in no version at all.
+- **NEVER open a script with the offer/guarantee** (Limitless team rule, 2026-07-08). With many students
+  in similar niches, offer-led openers make everyone sound the same. Build the copy so the prospect is
+  bought into the solution FIRST; the guarantee lands mid-to-late copy. This includes Future-State
+  scripts — they open on a hook or day-90 scene, not the promise.
+- **Primary texts: exactly ONE asset leads with the offer — the Short Form / Ultra Short** (reworded
+  per client, never copy-pasted). The other primary texts open with a non-guarantee lead, e.g. a
+  how-we-do-it promise line ("COSMETIC DENTISTS: Here's how we'll bring you qualified cosmetic
+  consults"), a case-study lead ("Here's how we helped one dentist generate 117 Invisalign cases"),
+  or a problem / aspiration-desire focus. Guarantee still appears later in each asset.
+  (Note: Franbeau's sanctioned "Here's how..." promise-opener is allowed in primary-text leads;
+  the kill-list ban still applies to "Here's the thing/truth/kicker" sermon setups.)
 - Guarantee framed from the client's perspective, always tied to its condition, never standalone.
   Default constructions: "you don't pay" / "or it's free" / "we work for free until you get them."
 - **No em-dashes** (use commas). No tricolons. No fragment stacks. No fabricated proof, stats, or stories.
