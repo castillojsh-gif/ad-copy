@@ -62,6 +62,13 @@ Key companion files (read when relevant):
   or a problem / aspiration-desire focus. Guarantee still appears later in each asset.
   (Note: Franbeau's sanctioned "Here's how..." promise-opener is allowed in primary-text leads;
   the kill-list ban still applies to "Here's the thing/truth/kicker" sermon setups.)
+- **Guarantee weaving (gold standard: `references/JOHN_POHL_TLC_GOLD_STANDARD.md`):** the risk-reversal
+  clause stays verbatim in every asset, but the promise half integrates into the sentence's grammar and
+  rotates framing devices: "That's what we put in writing..." / "we back that with a promise..." /
+  "...which is exactly why we can guarantee..." / "Give us 90 days... and 30 of them walk through your
+  doors, or...". Never restate the spine as an identical standalone line in every asset.
+- **Long-form headers are custom, mechanism-derived** (e.g. THE TARGETING / THE MESSAGING / THE CARE),
+  built from the client's actual pillars — not a fixed STRATEGY/WHY/DIFFERENT set.
 - Guarantee framed from the client's perspective, always tied to its condition, never standalone.
   Default constructions: "you don't pay" / "or it's free" / "we work for free until you get them."
 - **No em-dashes** (use commas). No tricolons. No fragment stacks. No fabricated proof, stats, or stories.
