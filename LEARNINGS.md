@@ -103,3 +103,40 @@ terminology.
   "top 5 on ChatGPT" promise that appeared in no offer version at all — Franbeau caught it. Blending
   feels helpful when the client seems unsure, but the fix is to ASK which statement governs, or default
   to the top one, never to synthesize a hybrid promise the client hasn't made.
+
+## 2026-07-21 — Jessica Ullman session (med spas, The SIP Patient Growth System)
+
+- **SHORT FORM: hook line first, offer immediately after — NOT a literal offer-led opener.** Franbeau's
+  memo lets the Short Form be the offer-forward asset, but the Pohl gold standard is stricter: even his
+  Ultra Short opens on the tribal-truth line, delivers the value line, THEN drops the guarantee. Adopt
+  Pohl's shape as the default for every Short Form: open on the wedge/tribal truth, land the offer in the
+  next beat. It's still the most offer-forward asset in the package; it just doesn't literally begin on the promise.
+- **HEALTH STORIES: FIRST PERSON ONLY, everywhere.** Meta's health flags fire on second-person attribution
+  ("your chronic pain," "if you suffer from"), never on a founder telling their own biography. Jessica's
+  16-years-of-pain / donated-kidney story is written as "I lived with...", never pointed at the reader.
+  Any health, weight, medical, or body claim in copy goes in the founder's first-person voice or gets cut.
+- **CROSS-CLIENT OVERLAP SWEEP for same-niche clients.** With 5 med spa clients, delivered copy must be
+  checked against the OTHER clients' live packages, not just internally. Real echoes caught on Jessica:
+  her likes/reach lines collided with Charles's likes-vs-bookings scripts (removed from S3 + Problem-First);
+  an aphorism-in-Script-1 + "That's what we put in writing" frame + caller-books-across-town beat all
+  echoed the Pohl reference (rewritten). Before delivering into a crowded niche, pull the other clients'
+  openers/frames/scenes and de-dupe. The reference package (Pohl) counts as a same-niche client for this.
+- **Guarantee frame map:** for soft/woven guarantees, keep an explicit list of the framing device used in
+  each asset so no two repeat (sign-our-name / back-it-in-writing / won't-put-on-paper / put-it-in-writing /
+  comes-in-writing / offer-forward / back-that-with-a-promise / we-guarantee-it / guarantee-is-simple /
+  exactly-why-we-can-guarantee). The risk-reversal clause stays verbatim; only the frame rotates.
+- **Med spa differentiation matrix (5 clients, keep lanes clean):** Sarah = retention ops; Iiley = empty
+  chair / idle injector / deposits / ad-burned; Chad = P&L operator, 54-in-90; Charles = emotion-science /
+  Fortune brand stack / likes-vs-bookings / ambassadors, 50-in-90; Jessica = connected-ecosystem /
+  infrastructure / "gloves on" / unpredictable patient flow, 90 leads. Pick openers, scenes, and wedges
+  that stay inside the assigned lane.
+- **"Marketing" not "ads" in med spa copy** (standing since Charles), EXCEPT where "an ad" is load-bearing
+  inside a first-person story (Jessica's own care "came from an ad") — there it stays.
+
+## SESSION STATE (2026-07-21) — packages drafted but NOT yet committed / client-approved
+
+Seven packages were produced this session and live only in chat + (Jessica) `clients/jessica-ullman/package_wip.md`:
+Raquel Bickford, Ashley Elkins, Thomas Ramsay, Adal Bermann, Charles Cantu, Tameem Rahman, Jessica Ullman.
+Only Jack Lombardi is fully committed. When each gets client approval, reconstruct its folder
+(docs + brief + final package), add it to COMPLETED_CLIENTS.md, and commit. Jessica is mid-flight:
+awaiting her 3-3-3 pick (recommendation logged in her package_wip.md).
