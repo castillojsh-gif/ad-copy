@@ -1,0 +1,1390 @@
+<script>
+/* First-paint beacon v1 (2026-10-01) [dave, #vk-funnel-analytics 1790882222.514959].
+   Lives in a page Custom Code element, NOT the funnel tracking code: GHL's
+   "Optimise page load" holds the tracking code back 5-12s, but inline scripts in
+   page elements run as the page parses. Sends to the relay (/t/px, text/plain):
+   load beacon at once (early:1, e_pre = page hidden/prerendering = Meta preload,
+   e_qs = raw query string), then on screen e_vis_ms, e_fcp_ms, and e_dwell_ms
+   (total ms on screen) at 1/3/6/10/20/40s on screen and on every hide. */
+(function(){
+  try{
+    var U='https://zany-gull-823.convex.site/t/px', P=window.performance;
+    function now(){return P&&P.now?Math.round(P.now()):0}
+    function ls(k){try{return localStorage.getItem(k)}catch(e){return null}}
+    var q=location.search||'', fb='';
+    try{fb=new URLSearchParams(q).get('fbclid')||''}catch(e){}
+    if(!fb){var m=document.cookie.match(/(?:^|;\s*)_fbc=([^;]+)/);if(m){var p=decodeURIComponent(m[1]).split('.');if(p.length>3)fb=p.slice(3).join('.')}}
+    if(!fb) fb=ls('lt_fbclid')||'';
+    var vid=ls('lt_vid')||'';
+    if(!fb&&!vid) return;
+    function vis(){return document.visibilityState==='visible'&&!document.prerendering}
+    var pre=vis()?0:1, visAt=null, since=null, acc=0, fcp=null, hb=[1000,3000,6000,10000,20000,40000], hi=0, tm=null;
+    function send(o){
+      o.fbclid=fb; o.visitor_id=ls('lt_vid')||vid; o.early=1; o.lp=location.origin+location.pathname;
+      var b=JSON.stringify(o);
+      try{if(navigator.sendBeacon&&navigator.sendBeacon(U,new Blob([b],{type:'text/plain'})))return}catch(e){}
+      try{fetch(U,{method:'POST',body:b,keepalive:true,headers:{'Content-Type':'text/plain'}}).catch(function(){})}catch(e){}
+    }
+    function dwell(){return acc+(since!==null?now()-since:0)}
+    function sched(){
+      clearTimeout(tm); if(since===null||hi>=hb.length) return;
+      tm=setTimeout(function(){hi++;send({e_dwell_ms:dwell(),e_fcp_ms:fcp});sched()},Math.max(0,hb[hi]-dwell()));
+    }
+    function onVis(){
+      if(vis()){
+        if(since!==null) return;
+        since=now();
+        if(visAt===null){visAt=since; send({e_vis_ms:visAt,e_fcp_ms:fcp,e_dwell_ms:0})}
+        sched();
+      }else if(since!==null){
+        acc+=now()-since; since=null; clearTimeout(tm);
+        send({e_dwell_ms:acc,e_fcp_ms:fcp});
+      }
+    }
+    try{new PerformanceObserver(function(l){l.getEntries().forEach(function(e){if(e.name==='first-contentful-paint'&&fcp===null)fcp=Math.round(e.startTime)})}).observe({type:'paint',buffered:true})}catch(e){}
+    send({e_pre:pre,e_qs:q.slice(0,1000)});
+    document.addEventListener('visibilitychange',onVis);
+    document.addEventListener('prerenderingchange',onVis);
+    window.addEventListener('pagehide',function(){if(since!==null){acc+=now()-since;since=null;clearTimeout(tm);send({e_dwell_ms:acc,e_fcp_ms:fcp})}});
+    window.addEventListener('pageshow',function(e){if(e.persisted)onVis()});
+    onVis();
+  }catch(e){}
+})();
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Limitless Agency — FAQ Model Page (Test)</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fast.vidalytics.com" crossorigin>
+<link rel="dns-prefetch" href="https://fast.vidalytics.com">
+<link rel="preconnect" href="https://link.joinlimitlessagency.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     LIMITLESS — FAQ MODEL PAGE (TEST)
+     Structure: hero → booking calendar → FAQ → testimonials → footer
+     Modeled on the So Shall We grow-vsl page.
+     ============================================================ */
+
+  html { scroll-behavior: smooth; }
+  html { overflow-x: hidden; }
+  body { overflow-x: clip; }
+  body { margin: 0; background: #05040a; }
+
+  /* ================= HERO ================= */
+
+  .lp-hero-bleed {
+    position: relative;
+    left: 50%;
+    width: 100vw; max-width: 100vw;
+    margin-left: -50vw; margin-right: -50vw;
+    overflow-x: clip;
+    background-color: #05040a;
+    background-image:
+      radial-gradient(60% 50% at 85% 10%, rgba(90,30,160,0.22) 0%, rgba(90,30,160,0) 70%),
+      radial-gradient(120% 80% at 50% 42%, rgba(150,20,80,0.16) 0%, rgba(40,10,26,0.06) 38%, rgba(5,4,10,0) 66%),
+      radial-gradient(140% 100% at 50% 0%, #110a16 0%, #05040a 55%);
+    background-repeat: no-repeat;
+  }
+  .lp-hero-bleed::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      url('https://limitlessagency.io/assets/logo-mark.png') no-repeat right -160px top -120px / 640px auto,
+      url('https://limitlessagency.io/assets/logo-mark.png') no-repeat left -200px bottom -140px / 520px auto;
+    opacity: 0.06; pointer-events: none; z-index: 0;
+  }
+  .lp-hero-bleed .hero-fade {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 140px;
+    background: linear-gradient(to bottom, rgba(5,4,10,0) 0%, #05040a 100%);
+    pointer-events: none; z-index: 0;
+  }
+  .lp-hero-bleed::before {
+    content: '';
+    position: absolute;
+    top: 180px; left: 50%; transform: translateX(-50%);
+    width: min(1400px, 135vw); height: 640px;
+    background: radial-gradient(ellipse at center,
+      rgba(255,45,120,0.20) 0%, rgba(255,45,120,0.07) 40%, rgba(255,45,120,0) 74%);
+    pointer-events: none; opacity: 0.9; z-index: 0;
+  }
+
+  .lp-hero-block {
+    --hero-pink: #ff2d78;
+    --hero-pink-hi: #ff5c95;
+    --hero-pink-lo: #c0175e;
+    --hero-white: #ffffff;
+    --hero-off-white: #c9c4d8;
+    position: relative; z-index: 1;
+    padding: 40px 24px 0;
+    text-align: center;
+    max-width: 960px; margin: 0 auto;
+    color: var(--hero-white);
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .lp-hero-block * { margin: 0; padding: 0; box-sizing: border-box; }
+  .lp-hero-block > * { position: relative; z-index: 1; }
+
+  .lp-hero-block .hero-eyebrow {
+    display: inline-block; margin: 0 auto 18px; padding: 11px 26px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--hero-pink-lo) 0%, var(--hero-pink) 55%, var(--hero-pink-hi) 100%);
+    box-shadow: 0 6px 22px rgba(255,45,120,0.28);
+    color: var(--hero-white);
+    font-size: 13px; font-weight: 700; letter-spacing: 0.09em; line-height: 1;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .lp-hero-block .hero-headline {
+    font-weight: 800; font-size: clamp(28px, 3.7vw, 37px);
+    line-height: 1.15; letter-spacing: -0.01em;
+    margin: 0 auto 18px; max-width: 900px;
+  }
+  .lp-hero-block .hero-headline .pink { color: var(--hero-pink); }
+  .lp-hero-block .hero-subheadline {
+    font-size: clamp(15px, 2.2vw, 19px); font-weight: 500; line-height: 1.65;
+    color: var(--hero-off-white); max-width: 680px; margin: 0 auto 20px;
+  }
+  .lp-hero-block .hero-directional {
+    font-size: clamp(15px, 2.2vw, 18px); font-weight: 600;
+    color: var(--hero-pink); margin: 0 auto 20px;
+  }
+  .lp-hero-block .hero-video-wrapper { max-width: 620px; margin: 0 auto; }
+  .lp-hero-block .hero-video-frame {
+    position: relative; width: 100%;
+    border-radius: 10px; border: 1px solid rgba(255,45,120,0.35);
+    box-shadow: 0 0 0 1px rgba(255,45,120,0.12), 0 24px 60px rgba(255,45,120,0.18);
+    aspect-ratio: 16 / 9; background: #000;
+  }
+  .lp-hero-block .hero-video-frame [id^="vidalytics_embed_"] {
+    width: 100% !important; position: relative; z-index: 1; border-radius: 10px;
+  }
+  .lp-hero-block [id^="vidalytics_embed"],
+  .lp-hero-block [id^="vidalytics_embed"] * { margin: revert; padding: revert; box-sizing: revert; }
+
+  /* build-speed bar (replaces the guarantee bar) */
+  .lp-hero-block .hero-bar {
+    max-width: 620px; margin: 24px auto 0; text-align: center;
+    padding: 16px 24px;
+    border: 1px solid rgba(255,45,120,0.45); border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,45,120,0.12) 0%, rgba(255,45,120,0.05) 100%);
+    box-shadow: 0 10px 30px rgba(255,45,120,0.12);
+  }
+  .lp-hero-block .hero-bar-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(15px, 2vw, 17px); font-weight: 600; line-height: 1.5;
+    color: var(--hero-white);
+  }
+  .lp-hero-block .hero-bar-text .pink { color: var(--hero-pink); font-weight: 700; }
+
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (min-width: 641px) {
+    .lp-hero-block .hero-eyebrow         { animation: heroFadeUp 0.7s ease both; }
+    .lp-hero-block .hero-headline        { animation: heroFadeUp 0.7s ease 0.08s both; }
+    .lp-hero-block .hero-subheadline     { animation: heroFadeUp 0.7s ease 0.16s both; }
+    .lp-hero-block .hero-directional     { animation: heroFadeUp 0.7s ease 0.24s both; }
+    .lp-hero-block .hero-video-wrapper   { animation: heroFadeUp 0.7s ease 0.32s both; }
+    .lp-hero-block .hero-bar             { animation: heroFadeUp 0.7s ease 0.5s both; }
+  }
+
+  /* ================= BOOKING CALENDAR ================= */
+
+  .lp-form-bleed {
+    box-sizing: border-box;
+    position: relative; z-index: 1;
+    padding: 40px 16px 110px;
+  }
+
+  /* plain wrapper around the GHL booking widget (the widget draws its own card).
+     The widget's form_embed.js sizes the iframe height to fit its content. */
+  .form-card {
+    box-sizing: border-box;
+    position: relative;
+    width: 100%; max-width: 1060px; margin: 0 auto;
+    min-height: 220px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .form-card iframe { display: block; width: 100%; border: 0; }
+  .form-loading {
+    position: absolute; left: 0; right: 0; top: 90px; margin: 0;
+    color: #8d87a3; font-size: 14px; font-weight: 600; pointer-events: none;
+  }
+  .form-card.is-loaded { min-height: 0; }
+  .form-card.is-loaded .form-loading { display: none; }
+
+  /* ================= FAQ ================= */
+
+  .lmt {
+    --pink: #ff2d78;
+    --pink-hi: #ff5c95;
+    --white: #ffffff;
+    --body: #c9c4d8;
+    --dim: #8d87a3;
+    --hair: rgba(255,255,255,0.12);
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: var(--white);
+  }
+  .lmt * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  .lmt-sec {
+    position: relative; left: 50%;
+    width: 100vw; max-width: 100vw;
+    margin-left: -50vw; margin-right: -50vw;
+    overflow-x: clip;
+    background: #0a0710;
+    padding: 120px 24px 96px;
+  }
+
+  .lmt-sec--alt  { background: #0a0710; }
+  .lmt-sec--founders {
+    background:
+      radial-gradient(70% 60% at 50% 55%, rgba(90,30,160,0.20) 0%, rgba(90,30,160,0) 70%),
+      #0a0710;
+  }
+  .lmt-sec--tst {
+    background:
+      radial-gradient(60% 45% at 50% 40%, rgba(255,45,120,0.12) 0%, rgba(255,45,120,0) 70%),
+      #0a0710;
+  }
+  .lmt-sec--base { background: #05040a; }
+
+  .founders-in { max-width: 980px; margin: 0 auto; position: relative; z-index: 1; }
+  .founders-bios {
+    margin-top: 52px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; align-items: stretch;
+  }
+  .bio {
+    position: relative;
+    display: flex; flex-direction: column;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+    border-radius: 12px; overflow: hidden;
+  }
+  /* square photos shown whole (no crop), sized down so they don't dominate */
+  .bio::before {
+    content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 2px;
+    background: linear-gradient(90deg, rgba(255,45,120,0) 0%, var(--pink) 50%, rgba(255,45,120,0) 100%);
+  }
+  .bio-photo {
+    width: 300px; max-width: calc(100% - 56px); aspect-ratio: 1 / 1; margin: 30px auto 0;
+    border-radius: 12px; overflow: hidden; background: #0b070d;
+    border: 1px solid rgba(255,45,120,0.35);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  /* if a photo isn't perfectly square, trim from the bottom, never the top */
+  .bio-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .bio-body { padding: 22px 28px 28px; }
+  .bio-body h3, .bio-body .role { text-align: center; }
+  .bio h3 {
+    font-size: 20px; font-weight: 800; line-height: 1.3; letter-spacing: -0.01em;
+    color: var(--white); margin-bottom: 4px;
+  }
+  .bio .role {
+    display: block; font-size: 12px; font-weight: 800; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--pink); margin-bottom: 12px;
+  }
+  .bio p { font-size: 15.5px; font-weight: 500; line-height: 1.7; color: var(--body); text-wrap: pretty; }
+
+  /* stat bar */
+  .lmt-stats {
+    position: relative; background: #05040a;
+    padding: 72px 24px;
+  }
+  .lmt-stats::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(60% 120% at 50% 50%, rgba(255,45,120,0.16) 0%, rgba(255,45,120,0) 70%);
+    pointer-events: none;
+  }
+  .lmt-stats-in {
+    position: relative; max-width: 1060px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; text-align: center;
+  }
+  .lmt-stat {
+    position: relative; overflow: hidden;
+    padding: 30px 22px 28px; border-radius: 14px;
+    border: 1px solid rgba(255,45,120,0.28);
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  }
+  .lmt-stat::before {
+    content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 2px;
+    background: linear-gradient(90deg, rgba(255,45,120,0) 0%, var(--pink) 50%, rgba(255,45,120,0) 100%);
+  }
+  .lmt-stat .fig {
+    display: block; font-size: clamp(38px, 5.4vw, 60px); font-weight: 800;
+    line-height: 1; letter-spacing: -0.035em; color: #ffffff; margin-bottom: 12px;
+  }
+  .lmt-stat .lbl {
+    display: block; font-size: 14.5px; font-weight: 600; line-height: 1.5;
+    color: rgba(255,255,255,0.82); max-width: 250px; margin: 0 auto;
+  }
+
+  .faq-in { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+  /* brand mark in the FAQ's open corners, same weight as the hero */
+  .faq-mark {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      url('https://limitlessagency.io/assets/logo-mark.png') no-repeat right -140px top 80px / 560px auto,
+      url('https://limitlessagency.io/assets/logo-mark.png') no-repeat left -180px bottom 60px / 480px auto;
+    opacity: 0.06;
+  }
+  @media (max-width: 1100px) { .faq-mark { display: none; } }
+  /* premium section seams: a thin pink hairline with a glowing dot at center */
+  .lmt-sec::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: min(760px, 86vw); height: 1px;
+    background: linear-gradient(90deg, rgba(255,45,120,0) 0%, rgba(255,45,120,0.85) 30%, rgba(255,45,120,0.85) 70%, rgba(255,45,120,0) 100%);
+    box-shadow: 0 0 8px rgba(255,45,120,0.35);
+    pointer-events: none;
+  }
+  @media (max-width: 760px) {
+    .lmt-sec::before { height: 2px; width: 78vw; }
+  }
+  .lmt-sec::after {
+    content: ''; position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
+    width: 7px; height: 7px; border-radius: 50%; background: var(--pink);
+    box-shadow: 0 0 14px 4px rgba(255,45,120,0.55);
+    pointer-events: none;
+  }
+
+  .chapter { display: block; text-align: center; margin-bottom: 22px; }
+  .chapter span {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--pink); line-height: 1;
+  }
+  .chapter span::before { content: ''; width: 26px; height: 2px; background: var(--pink); border-radius: 2px; }
+  .chapter--lg { margin-bottom: 26px; }
+  .chapter--lg span { font-size: 13px; letter-spacing: 0.24em; }
+
+  .lmt-h2 {
+    font-size: clamp(28px, 3.6vw, 42px); font-weight: 800;
+    line-height: 1.12; letter-spacing: -0.025em;
+    text-align: center; max-width: 780px; margin: 0 auto; text-wrap: pretty;
+  }
+  .lmt-h2 .pink { color: var(--pink); }
+  .lmt-sub {
+    font-size: clamp(16px, 1.7vw, 18px); font-weight: 500; line-height: 1.6;
+    color: var(--body); text-align: center; max-width: 620px; margin: 14px auto 0;
+  }
+
+  .faq-list { margin-top: 56px; }
+  .faq-item {
+    border: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.02) 100%);
+    border-radius: 12px; margin-bottom: 10px; overflow: hidden;
+    transition: border-color .25s ease, background .25s ease;
+  }
+  .faq-item.open { border-color: rgba(255,45,120,0.38); background: rgba(255,45,120,0.05); box-shadow: inset 3px 0 0 var(--pink); }
+  .faq-item:hover { border-color: rgba(255,45,120,0.3); }
+  .faq-q {
+    width: 100%; text-align: left; background: none; border: 0; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 22px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px; font-weight: 700; line-height: 1.4; letter-spacing: -0.005em; color: var(--white);
+  }
+  .faq-q:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
+  .faq-q .faq-n { flex: none; width: 34px; color: var(--pink); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; }
+  .faq-q .faq-t { flex: 1; }
+  .faq-body { background: rgba(255,255,255,0.03); }
+  .faq-q .plus { flex: none; width: 20px; height: 20px; position: relative; transition: transform .3s ease; }
+  .faq-q .plus::before, .faq-q .plus::after { content: ''; position: absolute; background: var(--pink); border-radius: 2px; }
+  .faq-q .plus::before { top: 50%; left: 0; right: 0; height: 2px; transform: translateY(-50%); }
+  .faq-q .plus::after { left: 50%; top: 0; bottom: 0; width: 2px; transform: translateX(-50%); transition: opacity .3s ease; }
+  .faq-item.open .plus { transform: rotate(180deg); }
+  .faq-item.open .plus::after { opacity: 0; }
+  .faq-body { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+  .faq-body-inner {
+    padding: 20px 24px 26px 58px;
+    font-size: 15.5px; font-weight: 500; line-height: 1.72; color: var(--body); text-wrap: pretty;
+  }
+
+  /* ---------- testimonial scroll panel (2-up, scrolls inside itself) ---------- */
+  .tst-in { max-width: 940px; margin: 0 auto; position: relative; z-index: 1; }
+  /* pinned testimonial frame: the page scroll moves the cards, wherever the mouse is */
+  .tstage { position: relative; margin-top: 40px; }
+  .tsticky { position: sticky; top: 24px; }
+  .tscroll {
+    position: relative; overflow: hidden;
+    height: min(860px, calc(100vh - 48px));
+    border-radius: 16px;
+    border: 1px solid rgba(255,45,120,0.28);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset, 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(255,45,120,0.08);
+    background: rgba(255,255,255,0.015);
+  }
+  .tgrid {
+    display: block; padding: 18px 18px 40px 18px;
+    will-change: transform;
+  }
+  .tvids { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  /* an odd card out at the end sits centered instead of leaving an empty slot */
+  .tvids > .tcard:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 9px); }
+  .tgroup-label {
+    display: block; text-align: center;
+    font-size: 12px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--pink); margin: 44px 0 22px;
+  }
+  .tshots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; align-items: stretch; }
+  .tshots > .scard:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 9px); }
+  .scard {
+    display: flex; flex-direction: column;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+    border-radius: 12px; padding: 24px 24px 24px;
+  }
+  .scard-body { padding: 0; margin-bottom: 18px; }
+  .scard .who {
+    display: block; color: var(--pink);
+    font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .scard .claim {
+    font-size: 17px; font-weight: 700; line-height: 1.4; letter-spacing: -0.005em;
+    color: var(--white); margin: 0; text-wrap: pretty;
+  }
+  .scard .claim .pink { color: var(--pink); }
+  /* screenshot at its natural size in its own framed box; cards in a row still match height */
+  .scard .shot {
+    display: block; width: 100%; flex: 0 0 auto;
+    border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden;
+    cursor: zoom-in; background: #1a1d21;
+  }
+  .scard .shot img { display: block; width: 100%; height: auto; }
+  .scard .shot:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  /* fade at the bottom so it's obvious there's more inside */
+  .tscroll::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 90px;
+    background: linear-gradient(to bottom, rgba(10,7,16,0) 0%, #0a0710 90%);
+    pointer-events: none; border-radius: 0 0 14px 14px;
+    transition: opacity .25s ease;
+  }
+  .tscroll.at-end::after { opacity: 0; }
+  .trail { position: absolute; top: 8px; bottom: 8px; right: -14px; width: 4px; border-radius: 4px; background: rgba(255,255,255,0.08); }
+  .trail i { position: absolute; left: 0; right: 0; top: 0; height: 18%; border-radius: 4px; background: rgba(255,45,120,0.8); }
+  .tscroll-hint {
+    text-align: center; margin-top: 14px;
+    font-size: 13px; font-weight: 600; color: var(--dim);
+  }
+  .tcard {
+    display: flex; flex-direction: column;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+    border-radius: 12px; overflow: hidden;
+  }
+  .tcard .vlazy { border-radius: 0; border: 0; border-bottom: 1px solid rgba(255,45,120,0.6); }
+  @media (max-width: 760px) { .tcard .vlazy { border-bottom-width: 2px; } }
+  .tcard-body { padding: 16px 18px 18px; }
+  .tcard, .scard { transition: transform .2s ease, border-color .2s ease; }
+  .tcard:hover, .scard:hover { transform: translateY(-2px); border-color: rgba(255,45,120,0.35); }
+  .tcard .who {
+    display: block; color: var(--pink);
+    font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tcard h3 {
+    font-size: 14.5px; font-weight: 600; line-height: 1.5; letter-spacing: 0;
+    color: var(--body); margin: 0; text-wrap: pretty;
+  }
+  .tcard h3 .pink { color: var(--white); font-weight: 700; }
+  .vlazy {
+    width: 100%; position: relative; padding-top: 56.25%;
+    background: #000; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--hair); overflow: hidden;
+  }
+  .vlazy .play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .vlazy .play span {
+    width: 58px; height: 58px; border-radius: 50%; background: var(--pink);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 30px rgba(255,45,120,0.5);
+  }
+  .vlazy .play svg { width: 22px; height: 22px; margin-left: 3px; fill: #fff; }
+
+  /* floating book-a-call button: only shows while the testimonials are on screen */
+  .tfloat {
+    display: none; /* phones only; turned on in the mobile media query */
+    position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    z-index: 60;
+    transform: translate(-50%, 160%); opacity: 0; pointer-events: none;
+    transition: transform .35s ease, opacity .25s ease;
+  }
+  .tfloat.show { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+  .tfloat a {
+    display: inline-block; white-space: nowrap; text-decoration: none;
+    padding: 17px 40px; border-radius: 999px;
+    background: linear-gradient(135deg, #c0175e 0%, var(--pink) 55%, var(--pink-hi) 100%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.55), 0 6px 20px rgba(255,45,120,0.35);
+    color: #fff; font-size: 14.5px; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase;
+  }
+  .tfloat a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+  /* CTA */
+  .lmt-cta { margin-top: 56px; text-align: center; }
+  .lmt-cta a {
+    display: inline-block; text-decoration: none;
+    padding: 20px 48px; border-radius: 999px;
+    background: linear-gradient(135deg, #c0175e 0%, var(--pink) 55%, var(--pink-hi) 100%);
+    box-shadow: 0 8px 26px rgba(255,45,120,0.30), inset 0 1px 0 rgba(255,255,255,0.22);
+    color: #fff; font-size: 15px; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .lmt-cta a:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,45,120,0.40); }
+  .lmt-cta a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .lmt-cta .note { display: block; margin-top: 14px; font-size: 13.5px; font-weight: 500; color: var(--dim); }
+
+  /* footer */
+  .lmt-footer {
+    background: #05040a; border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 40px 24px 48px; text-align: center;
+  }
+  .lmt-footer .footer-mark { display: block; width: 44px; height: auto; margin: 0 auto 22px; opacity: 0.9; }
+  .lmt-footer .links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+  .lmt-footer .links a {
+    color: var(--dim); text-decoration: none; font-size: 13px; font-weight: 600;
+    transition: color .2s ease;
+  }
+  .lmt-footer .links a:hover { color: var(--pink); }
+  .lmt-footer .copy { color: #6f6a80; font-size: 13px; font-weight: 500; }
+  .lmt-footer .legal {
+    max-width: 720px; margin: 22px auto 0;
+    color: #5a5566; font-size: 10.5px; font-weight: 500; line-height: 1.6;
+  }
+  .lmt-footer .legal p + p { margin-top: 8px; }
+
+  /* ================= MOBILE ================= */
+
+  @media (max-width: 760px) {
+    .lp-hero-bleed::before { display: none; }
+    .lp-hero-bleed::after { display: none; }
+    .lp-hero-block { padding: 28px 12px 0; }
+    .lp-hero-block .hero-eyebrow { font-size: 10.5px; padding: 9px 16px; letter-spacing: 0.07em; margin-bottom: 14px; white-space: normal; }
+    .lp-hero-block .hero-headline { font-size: 25px; margin-bottom: 14px; line-height: 1.18; max-width: 100%; }
+    .lp-hero-block .hero-subheadline { font-size: 15px; margin-bottom: 16px; line-height: 1.55; max-width: 100%; }
+    .lp-hero-block .hero-directional { font-size: 15px; margin-bottom: 16px; }
+    .lp-hero-block .hero-video-wrapper { max-width: 100%; }
+    .lp-hero-block .hero-bar { padding: 16px 14px; margin-top: 20px; max-width: 100%; }
+    .lp-hero-block .hero-bar-text { font-size: 15px; }
+
+    .lp-form-bleed { padding: 28px 8px 64px; }
+
+    .lmt-sec { padding: 72px 18px 60px; }
+    .chapter { margin-bottom: 16px; }
+    .chapter span { font-size: 10.5px; letter-spacing: 0.2em; }
+    .chapter span::before { width: 18px; }
+    .chapter--lg span { font-size: 11.5px; }
+    .lmt-h2 { font-size: 26px; line-height: 1.2; letter-spacing: -0.022em; }
+    .lmt-sub { font-size: 15.5px; margin-top: 11px; }
+
+    .faq-list { margin-top: 36px; }
+    .tfloat { display: block; left: 14px; right: 14px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); transform: translateY(160%); }
+    .tfloat.show { transform: translateY(0); }
+    .tfloat a { display: block; text-align: center; padding: 16px 16px; font-size: 14px; letter-spacing: 0.05em; }
+    .tstage { margin-top: 24px; }
+    .tsticky { top: 12px; }
+    .trail { right: -9px; width: 3px; }
+    .tgrid { padding: 12px 12px 36px 12px; }
+    .tvids { grid-template-columns: 1fr; gap: 12px; }
+    .tvids > .tcard:last-child:nth-child(odd) { width: 100%; }
+    .tgroup-label { font-size: 10.5px; letter-spacing: 0.16em; margin: 32px 0 16px; }
+    .tshots { grid-template-columns: 1fr; gap: 12px; }
+    .tshots > .scard:last-child:nth-child(odd) { width: 100%; }
+    .scard { border-radius: 10px; padding: 18px; }
+    .scard .claim { font-size: 16px; }
+    .tscroll::after { height: 70px; }
+    .tcard { border-radius: 10px; }
+    .tcard-body { padding: 14px 16px 16px; }
+    .tcard h3 { font-size: 14.5px; }
+    .vlazy .play span { width: 52px; height: 52px; }
+    .lmt-stats { padding: 44px 18px; }
+    .lmt-stats-in { grid-template-columns: 1fr; gap: 28px; }
+    .lmt-stat .fig { font-size: 42px; margin-bottom: 9px; }
+    .lmt-stat .lbl { max-width: 280px; }
+    .founders-bios { grid-template-columns: 1fr; gap: 14px; margin-top: 32px; }
+    .bio { border-radius: 10px; }
+    .bio-photo { width: min(240px, 70%); margin-top: 24px; }
+    .bio-body { padding: 18px 20px 22px; }
+    .bio h3 { font-size: 18.5px; }
+    .bio p { font-size: 15px; line-height: 1.68; text-align: center; text-wrap: balance; }
+    .faq-q { padding: 18px 16px; font-size: 16px; line-height: 1.38; gap: 10px; }
+    .faq-q .faq-n { width: 26px; font-size: 11px; }
+    .faq-body-inner { padding: 16px 16px 20px; font-size: 15px; line-height: 1.68; }
+
+    .lmt-cta { margin-top: 38px; }
+    .lmt-cta a { display: block; box-sizing: border-box; width: 100%; max-width: 100%; padding: 18px 16px; font-size: 14px; letter-spacing: 0.05em; white-space: nowrap; box-shadow: 0 6px 16px rgba(255,45,120,0.26); }
+    .lmt-cta { padding: 0 4px; }
+    .lmt-cta .note { font-size: 13px; margin-top: 12px; }
+
+    .lmt-footer { padding: 30px 18px 36px; }
+    .lmt-footer .links { gap: 16px; margin-bottom: 14px; }
+  }
+
+  /* phones: only the headline is tightened (keeps it to 4 lines). Spacing is back to original. */
+  @media (max-width: 760px) {
+    .lp-hero-block .hero-headline { font-size: 23px; line-height: 1.16; }
+  }
+
+  @media (max-width: 350px) {
+    .lmt-cta a { font-size: 12.5px; letter-spacing: 0.03em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .lp-hero-block .hero-eyebrow,
+    .lp-hero-block .hero-headline,
+    .lp-hero-block .hero-subheadline,
+    .lp-hero-block .hero-directional,
+    .lp-hero-block .hero-video-wrapper,
+    .lp-hero-block .hero-bar { animation: none; }
+    .lmt-cta a { transition: none; }
+    .lmt-cta a:hover { transform: none; }
+    .faq-body, .faq-q .plus, .faq-q .plus::after { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<div class="lp-hero-bleed">
+<section class="lp-hero-block">
+
+  <div class="hero-eyebrow">For Agency Owners Only</div>
+
+  <h1 class="hero-headline">
+    Get The Agency You Actually Wanted: One That Signs <span class="pink">15 to 25 High-Ticket Clients</span> A Month
+  </h1>
+
+  <p class="hero-subheadline">
+    The done-for-you system that has scaled over 50 agencies past $100K a month. It's what took my agency to $500K a month and a multi-million dollar exit in 3.5 years.
+  </p>
+
+  <p class="hero-directional">Most agencies don't have a lead gen problem.<br>They have this problem ↓</p>
+
+  <div class="hero-video-wrapper">
+    <div class="hero-video-frame">
+      <div id="lt_vsl_slot" style="width: 100%; position:relative; padding-top: 56.25%; background:#000;"></div>
+      <script type="text/javascript">
+      /* VSL split test [dave, 2026-09-29]: old = autoplay + Click To Unmute (Vidalytics _i_OCml0ZYSzlKWo),
+         new = thumbnail + chapters, no autoplay (5Yu_WUDT85USLTxl). 50/50, sticky per browser
+         (localStorage lt_vsl_arm); ?vsl_arm=old|new forces an arm for testing. The body-code
+         beacons read window.LT_VSL_ARM / LT_VSL_EMBED. Each arm gets its own poster. */
+      (function(){
+        var ARMS={
+          'new':{g:'7PC5UnMUzlm0KsH4',poster:'https://fast.vidalytics.com/video/wQb7gRUB/_i_OCml0ZYSzlKWo/img/thumbnail/blob-6abe6de91db6d.jpg'},
+          'old':{g:'kjCWCCtUBqIEyBl1',poster:'https://fast.vidalytics.com/video/wQb7gRUB/_i_OCml0ZYSzlKWo/img/thumbnail/VSL-thumbnail-stop-being-C-6abbea5b81600.jpg'}
+        };
+        /* VSL HOOK split LIVE 2026-10-21 [dave]: old = A, current VSL (kjCWCCtUBqIEyBl1, autoplay + Click To Unmute);
+           new = B, hook test (7PC5UnMUzlm0KsH4 = video VWYwMbJvSfSPvPO3, 13s hook clip as video thumbnail, no autoplay).
+           50/50, sticky per browser (localStorage lt_vsl_arm2, fresh key so every browser is re-randomized);
+           ?vsl_arm=old|new forces an arm for testing. Start metric = intentional start (body beacon). */
+        /* VSL HOOK split ENDED 2026-10-25 [dave]: B (Gill on stage + slides clip) underperformed. Everyone gets A (old). */
+        var arm='old';
+        try{localStorage.setItem('lt_vsl_arm2',arm);localStorage.setItem('lt_vsl_arm',arm)}catch(e){}
+        var A=ARMS[arm], id='vidalytics_embed_'+A.g;
+        window.LT_VSL_ARM=arm; window.LT_VSL_EMBED=id;
+        var slot=document.getElementById('lt_vsl_slot');
+        if(slot){ slot.id=id; slot.style.background="#000 url('"+A.poster+"') center/cover no-repeat"; }
+        (function (v, i, d, a, l, y, t, c, s) {
+          y='_'+d.toLowerCase();c=d+'L';if(!v[d]){v[d]={};}if(!v[c]){v[c]={};}if(!v[y]){v[y]={};}var vl='Loader',vli=v[y][vl],vsl=v[c][vl + 'Script'],vlf=v[c][vl + 'Loaded'],ve='Embed';
+          if (!vsl){vsl=function(u,cb){
+              if(t){cb();return;}s=i.createElement("script");s.type="text/javascript";s.async=1;s.src=u;
+              if(s.readyState){s.onreadystatechange=function(){if(s.readyState==="loaded"||s.readyState=="complete"){s.onreadystatechange=null;vlf=1;cb();}};}else{s.onload=function(){vlf=1;cb();};}
+              i.getElementsByTagName("head")[0].appendChild(s);
+          };}
+          vsl(l+'loader.min.js',function(){if(!vli){var vlc=v[c][vl];vli=new vlc();}vli.loadScript(l+'player.min.js',function(){var vec=v[d][ve];t=new vec();t.run(a);});});
+        })(window, document, 'Vidalytics', id, 'https://fast.vidalytics.com/embeds/wQb7gRUB/'+A.g+'/');
+      })();
+      </script>
+    </div>
+  </div>
+
+  <div class="hero-bar">
+    <p class="hero-bar-text">
+      Add a minimum of <span class="pink">$50,000 in new revenue</span> to your agency, or you don't pay.
+    </p>
+  </div>
+
+</section>
+
+<!-- ================= BOOKING CALENDAR ================= -->
+<!-- every CTA on the page links to #book-call; #apply is kept so older links still land here -->
+<div class="lp-form-bleed" id="apply">
+  <div id="book-call" style="scroll-margin-top: 16px"></div>
+  <div class="form-card" id="formCard">
+    <p class="form-loading">Loading the calendar…</p>
+    <iframe src="https://link.joinlimitlessagency.com/widget/booking/3ENKfDocp8SIXtwEmTIX" allow="payment" style="width: 100%;border:none;overflow: hidden;" scrolling="no" id="3gY1fw5IT5KdteZi7kSY_1793084101083"></iframe>
+    <script>
+    (function(){
+      var card=document.getElementById('formCard'), f=card && card.querySelector('iframe');
+      function done(){ card.classList.add('is-loaded'); }
+      if(f) f.addEventListener('load', done);
+      setTimeout(done, 8000); /* never leave the loading line up for good */
+    })();
+    </script>
+    <script src="https://link.joinlimitlessagency.com/js/form_embed.js" type="text/javascript"></script>
+  </div>
+</div>
+<div class="hero-fade" aria-hidden="true"></div>
+</div>
+
+<div class="lmt">
+
+<!-- ================= WHY LISTEN TO US ================= -->
+<section class="lmt-sec lmt-sec--alt lmt-sec--founders">
+  <div class="founders-in">
+    <div class="chapter chapter--lg"><span>Why you should listen to us</span></div>
+    <h2 class="lmt-h2">We've already built the agency <span class="pink">you're building.</span></h2>
+
+    <div class="founders-bios">
+      <div class="bio">
+        <div class="bio-photo"><img data-bio-src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab6fd4a70380726a9606d8a.jpg" width="900" height="900" alt="Gill Valerio speaking on stage" loading="lazy" decoding="async"></div>
+        <div class="bio-body">
+          <h3>Gill Valerio</h3>
+          <span class="role">Co-founder</span>
+          <p>Gill built his first agency from zero to over $500K a month and sold it in a multi-million dollar deal in 3.5 years. Before that, he was grinding 80-hour weeks and realized he'd built himself a decent-paying job instead of a real business. This system is how he fixed it, and the operators who helped him scale are the same team you work with here. Today he also runs Limitless Capital, a private equity firm that acquires and scales agencies.</p>
+        </div>
+      </div>
+      <div class="bio">
+        <div class="bio-photo"><img data-bio-src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab6fd4a53ee44f56b3fd052.jpg" width="900" height="900" alt="Dave Pancham speaking on stage" loading="lazy" decoding="async"></div>
+        <div class="bio-body">
+          <h3>Dave Pancham</h3>
+          <span class="role">Co-founder</span>
+          <p>Dave had run Go Pancham as a seven-figure agency for years, but behind the scenes it was chaos. He was burnt out, couldn't take a vacation, and had no reliable way to bring in clients. Gill partnered with him, installed everything we now build for every member, and they doubled revenue and profit in under 12 months. Today Dave works 4 hours a week in the agency, doesn't take sales calls, and it still signs 20 to 30 new clients a month.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STAT BAR ================= -->
+<div class="lmt-stats">
+  <div class="lmt-stats-in">
+    <div class="lmt-stat"><span class="fig">250+</span><span class="lbl">Agencies we've installed this in</span></div>
+    <div class="lmt-stat"><span class="fig">50+</span><span class="lbl">Past the 100,000 a month mark</span></div>
+    <div class="lmt-stat"><span class="fig">3</span><span class="lbl">Under LOI right now for their own multi-million dollar exits</span></div>
+  </div>
+</div>
+
+<!-- ================= FAQ ================= -->
+<section class="lmt-sec lmt-sec--base lmt-sec--faq">
+  <div class="faq-mark" aria-hidden="true"></div>
+  <div class="faq-in">
+    <div class="chapter chapter--lg"><span>The Mega FAQ</span></div>
+    <h2 class="lmt-h2">The questions that decide <span class="pink">if this is for you</span></h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">01</span><span class="faq-t">What exactly is this?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">We help you build an agency that runs without you. The foundation is acquisition, because nothing else holds until clients come in without you chasing them. We call it the Founder-less Acquisition System. Our team builds it for you, custom to your agency: the offer and pricing, the ads and creative, the funnel and GoHighLevel build, the sales process, and the follow-up. Then we systematize your delivery so the work doesn't need you in every account. The profit from both pays for the team that runs it.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">02</span><span class="faq-t">Is this done for me, or do I have to build it?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">Both, and it's worth being clear about which part is which. The build is on us. Our team builds it custom to your agency: the offer, the ads and creative, the funnel, the GoHighLevel build, the sales script, and the follow-up. That includes helping you raise your prices, which gets set when we build the offer. What we need from you are the decisions only you can make, like who you want to sell to. And we need you to jump on with us one-on-one while we build it. Once it's live, your team runs it, with us right by your side. You're never handed a course and left to figure it out.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">03</span><span class="faq-t">Who will I actually be working with?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">The same team that builds everything for you is the team you work with. Every week, you get a one-on-one call with your dedicated strategist, someone who's run an agency themselves. You also get your own private Slack channel with that whole team: specialists in sales, paid ads, client success, AI integration, technical operations, and CEO leadership. Gill Valerio and Dave Pancham are in that channel too. It's yours, not a shared group chat where questions get buried. And every week, there are group calls on high-ticket sales, paid ads, copywriting, client success, operations, technical operations, and CEO leadership.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">04</span><span class="faq-t">What happens if something isn't working?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">We find what's broken and fix it. Every piece is measured, from the ads to the booked calls to the closes. So when something underperforms, we run a bottleneck analysis to find the exact piece that isn't working, and we stay on it until it works. We can do that because we're still doing this ourselves. Dave's agency alone spends 40,000 a month on ads, and across the businesses we own and manage acquisition for, we spend multiple six figures a month. So what we build for you is what's working right now, troubleshot at spend levels most agencies never reach. If we didn't think we could solve your problem, we wouldn't take you on.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">05</span><span class="faq-t">What's the catch with the guarantee?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">There's no catch, but there is a deal. We build everything for you and keep improving it as the data comes in. Your side is showing up and doing the work. That means implementing what we build for you, and attending your one-on-one calls so we get the feedback to keep refining it. It means spending at least $100 a day on ads. To keep your close rate climbing, you let us review your sales calls. To keep lead quality high, you give us the feedback and the data behind it. Do your part, and the guarantee is yours.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">06</span><span class="faq-t">Will this work in my niche or my market?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">If you're an agency owner with paying clients and revenue coming in, yes. We've built this for agencies serving almost every kind of local business, from med spas to personal injury attorneys, plus agencies selling to SaaS companies, e-commerce brands, and Amazon sellers. It works because nothing in it is a template. Your offer, your messaging, your creatives, and your sales process get built around who you serve. And if your market is smaller, we build it for the audience you actually have.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">07</span><span class="faq-t">Am I too big or too small for this?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">This is built for agencies already collecting at least 20K a month, not counting client ad spend that passes through you. Below that, it's usually too early. Savannah was stuck around 40K on organic and her personal brand alone, and she's past 100K a month now. At the other end, three agencies we work with are under LOI right now for their own multi-million dollar exits. They're doing between 300K and 700K a month.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">08</span><span class="faq-t">I've been in a program before. How is this different?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">You'll see the difference in the first two weeks. A program hands you modules and leaves the building to you. Here, our team writes your ads, builds your funnel and GoHighLevel setup, and writes your sales script. You're live within 14 days or less, and we stay in it with you after launch. And we're in the trenches just like you, implementing this in our own agencies and businesses every day.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">09</span><span class="faq-t">I've paid agencies to bring in clients before and got burned. Why would this be any different?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">Usually it's because they were measured on the wrong thing. An outside agency will never understand your business the way you do, and its job is to book appointments. You've probably had to explain the difference to your own clients: booked doesn't mean qualified, and it doesn't mean they show up or sign. This isn't hiring another agency to run your ads. We build the whole system inside your business, for the result you actually care about, which is signed clients. The offer, the ads, the funnel, the sales process, and the follow-up get built for you as one system, so no part of it waits on you. And we understand your business because we run agencies ourselves.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">10</span><span class="faq-t">Why can't I just do this myself?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">You could. You already know how to get your clients results. But selling your own agency is a different game. Your buyers are business owners who've worked with multiple agencies and been burned before. Reaching them takes messaging built on their real problems, their circumstances, and the outcomes they actually want. Get that wrong and you burn tens of thousands in ad spend, and months, finding out. We build it for you, from messaging that's already working on these buyers right now.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">11</span><span class="faq-t">Why does this work when nothing else has?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">Because it's built in the order your agency actually depends on. Hire the team first, and there's no profit to keep them. Systematize delivery first, and you've got a smooth operation with no new clients coming in. So acquisition comes first. It brings in better clients at higher prices, and that profit pays for the people who run it without you. Skip a step and the next one has nothing to stand on.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">12</span><span class="faq-t">I'm already slammed. How do I find the time?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">You're slammed because everything runs through you, and that's the thing this fixes. The heavy build is on us. Our team builds everything for you. What we need from you is a few hours a week: your one-on-one call with your strategist, and the decisions only you can make. And every piece that goes live is one more thing that stops running through you.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">13</span><span class="faq-t">I hate being on camera. Is that a problem?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">Not at all. If you're willing to film, we write the scripts and coach you through delivery, so it's quick and painless. If you'd rather not, someone on your team can be the face of it. Or we'll source UGC creators to film for you.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">14</span><span class="faq-t">How much do I need to spend on ads?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">Plan on at least $100 a day in ad spend. That's paid straight to Meta, separate from working with us. Below that, your ads don't get enough data to find your buyers consistently. From there, we help you set the right number for what you want to hit.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">15</span><span class="faq-t">I don't want to sell my agency. Is this still for me?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">Yes. An agency built to sell is just an agency that works without you in it. That's how an agency should be built, whether you ever sell it or not. It's what lets you step away without the agency slowing down. And if you do decide on an exit someday, it's already built for one. That's how I sold mine.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">16</span><span class="faq-t">How fast will I see results?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">We get you live within 14 days or less, and leads and booked calls usually start coming in within days of launch. That's because we're not starting from zero. We've built this across almost every niche, so we already have the data on what works. And we spend multiple six figures a month on ads across our own agencies and businesses. So we know how to find what works, fast.</div></div>
+      </div>
+      <div class="faq-item"><button class="faq-q" aria-expanded="false"><span class="faq-n">17</span><span class="faq-t">Do you help with hiring?</span><span class="plus"></span></button><div class="faq-body"><div class="faq-body-inner">Yes, and we don't do it with job posts. A-players don't apply. They get hunted. The best closers, media buyers and client success managers aren't on Indeed. They're already crushing it for another agency. That's why most owners end up hiring the first decent applicant and hoping it works out.<br><br>Limitless Talent is our in-house headhunting team. We built it to staff our own agencies first. We go after the people who aren't looking, vet every candidate before you ever talk to them, and hand you multiple strong options. Closers, setters, client success, media buyers, operations, director-level, even AI automation specialists. Agencies are all we recruit for, so we know exactly what great looks like in every one of those seats. The only hard decision left is which one to hire.</div></div></div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span class="faq-n">18</span><span class="faq-t">What happens on the call?</span><span class="plus"></span></button>
+        <div class="faq-body"><div class="faq-body-inner">It's a Zoom call with one of our agency consultants. We'll look at where your agency is now and what's still running through you. If it's a fit, we'll walk you through exactly how it would work for your agency and what it costs. If it's not, we'll tell you.</div></div>
+      </div>
+    </div>
+
+    <div class="lmt-cta">
+      <a href="#book-call">See If Your Agency Qualifies</a>
+      <span class="note">Takes less than 60 seconds.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="lmt-sec lmt-sec--alt lmt-sec--tst">
+  <div class="tst-in">
+    <div class="chapter chapter--lg"><span>Hear it from them</span></div>
+    <h2 class="lmt-h2">The wins <span class="pink">don't stop coming.</span></h2>
+
+    <p class="tscroll-hint">Scroll for more member wins ↓</p>
+    <div class="tstage" id="tstage">
+    <div class="tsticky">
+    <span class="trail" aria-hidden="true"><i id="trailBar"></i></span>
+    <div class="tscroll" id="tscroll">
+      <div class="tgrid" id="tgrid" aria-label="Member testimonials">
+        <div class="tvids">
+      <div class="tcard">
+        <div class="vlazy" data-vid="QEeqwoIp7n1cai05"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Members</span>
+          <h3><span class="pink">First $100K months. Doubled revenue.</span> Agency owners who stopped being needed in every part of it.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="IPg0BDQj3RHWfAYX"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Cyle</span>
+          <h3>Cyle spent 10 years and hundreds of thousands on coaches. Then added <span class="pink">$1M in annual revenue</span> in 90 days.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="8Anor9twgE5bow7n"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Dave</span>
+          <h3>How Dave, a burnt-out agency owner, added <span class="pink">over $100K/month</span> in recurring revenue, while finally taking vacations.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="llCras91VuANCP9i"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Brad</span>
+          <h3>Brad was already doing $1M a month. Limitless spotted what he'd missed in 5 minutes, and it returned <span class="pink">10-20X off the first call</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="XYLIY6p5aRsa6r6S"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Katie</span>
+          <h3>Katie went from $8K a month with four clients to <span class="pink">$60K a month in five months</span>. 600% growth.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="bGwx9zlkNvugBxAI"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Regan</span>
+          <h3>Regan launched ads to the trades. <span class="pink">48 hours later: 12 appointments booked</span>, and $42,000 from one of them.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="n_dfnAbW0rt5mamZ"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Savannah</span>
+          <h3>Savannah just hit her first <span class="pink">$100K month</span>, up from $40K when she started.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="ANas8minYbPTY3qq"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Alexis</span>
+          <h3>Alexis launched her ads the same day and <span class="pink">closed her first lead for $10K</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="TcsS1dEOGPL_AhVV"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Mina</span>
+          <h3>Mina built one of America's fastest-growing agencies the hard way. His regret: <span class="pink">not having Limitless when he started</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="b7560clIOpR0ZQmT"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Hamzah</span>
+          <h3>Hamzah runs a million-dollar agency. His test for any coach: are they <span class="pink">still running the business they're teaching</span>? These guys are.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="59f3wI2QLVh7ollS"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Thomas</span>
+          <h3>Thomas was stuck at $30K doing everything himself. Now he's at <span class="pink">$50K and barely touches fulfillment</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="Sw6FK8iVsqiL91o2"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Carlos</span>
+          <h3>Carlos runs a 15-year, 8-figure business and still hired Limitless. His advice: <span class="pink">don't let your ego tell you you're the exception</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="wPvTk_Y6IOEOujaz"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Brandon</span>
+          <h3>Brandon built a 7-figure agency over 16 years. Came to Limitless to reach eight. <span class="pink">$600K added in five months</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="Z5V5FurIlOcL5BOx"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Steve & Nicole</span>
+          <h3>Steve and Nicole were the bottleneck in their own agency. They <span class="pink">doubled revenue in three months</span>, and got themselves out of the day-to-day.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="VEzJhtEQr7DwLOGn"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Jenna</span>
+          <h3>Jenna raised her prices, then closed a deal <span class="pink">paid in full three months upfront</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="rmVRre28RB3yPvP6"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Alexis</span>
+          <h3>Alexis closed <span class="pink">$10K on a one-call close</span>, the day she launched.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="XMXvXVJ1DdwdG8Xy"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Madison</span>
+          <h3>Madison's question wasn't what Limitless costs. It was <span class="pink">what staying stuck was costing her</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="SvgiwesZfifRZRgD"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Gregg</span>
+          <h3>Gregg looked at other programs. They were generic. <span class="pink">This one wasn't</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="keukLD82m4oGBbnb"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Jason</span>
+          <h3>Jason had been in other groups that shove you in a system and hope. Limitless does it <span class="pink">with him, not just for him</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="Tw9IigmW4drwX9i0"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Lucas</span>
+          <h3>Lucas was skeptical too. Now his line is simple: <span class="pink">I'm proof it works</span>. Everyone here is proof it works.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="0UUCNNPqADMgIZtQ"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Christina</span>
+          <h3>Christina was skeptical until she saw Gill had <span class="pink">already built the agency she's building</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="huKZWSf1Hz3Eq2HK"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Daniel</span>
+          <h3>Daniel didn't want to be lost in a mass group. He wanted people who'd been there and could tell him <span class="pink">when to double down</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="cPgN3FDGVipxwHPQ"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Eric & Niki</span>
+          <h3>Eric and Niki hit a wall they couldn't grow past. Limitless gave them the <span class="pink">systems to scale</span>.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="S24zyRdvGYW1Ed_w"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Austin</span>
+          <h3>Austin's good at reading people. His read on Limitless: <span class="pink">the real deal</span>, and a room full of operators building to exit.</h3>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="vlazy" data-vid="ACrCsVyJ7fuiWMX3"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div></div>
+        <div class="tcard-body">
+          <span class="who">Nick</span>
+          <h3>Nick met Gill two years ago when his agency was at <span class="pink">literal zero</span>. He's still here, still building.</h3>
+        </div>
+      </div>
+        </div>
+        <span class="tgroup-label">The wins as they happen</span>
+        <div class="tshots">
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Wes</span>
+              <p class="claim">Refined his offer and systems, then took agency MRR to <span class="pink">$154,300, nearly 30% growth</span> in 3.5 months.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a251390da24932f1244520d.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a251390da24932f1244520d.png" alt="" width="934" height="622" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Dave</span>
+              <p class="claim"><span class="pink">31 deals closed in a single month</span> at a $1,225 blended CAC. Four record-breaking months in a row.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a251368fc95b24549a6f30f.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a251368fc95b24549a6f30f.png" alt="" width="932" height="710" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Katie</span>
+              <p class="claim">Went from <span class="pink">$11K a month to $87K a month</span> in six months.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a4c7750a97402b00bd90856.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a4c7750a97402b00bd90856.png" alt="" width="940" height="762" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Logan</span>
+              <p class="claim">His <span class="pink">first $60K month</span>. His biggest month before that was $20K.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a4c78110e898f7923fed8ad.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a4c78110e898f7923fed8ad.png" alt="" width="902" height="794" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Brandon</span>
+              <p class="claim"><span class="pink">$22K new MRR</span> for the month, plus $75K cash in for project work.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a2512fe49e55f8519944178.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a2512fe49e55f8519944178.png" alt="" width="806" height="464" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">EJ</span>
+              <p class="claim">Hit a <span class="pink">66% close rate</span> in a single week. $12K in contracts closed.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a4c78a0a97402b00bd9231d.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a4c78a0a97402b00bd9231d.png" alt="" width="918" height="356" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Nick</span>
+              <p class="claim">Sold a franchise at <span class="pink">$15K/mo across 3 locations</span>.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a2512c0f607d4002bb12e23.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a2512c0f607d4002bb12e23.png" alt="" width="812" height="260" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Matthew</span>
+              <p class="claim">Sold <span class="pink">$12K paid in full</span> in a single day.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a251271da24932f124445d0.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a251271da24932f124445d0.png" alt="" width="692" height="240" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Tracey</span>
+              <p class="claim">Closed a <span class="pink">$9,200 deal paid in full</span> for 3 months.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a2512196a06f03d4490eba0.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a2512196a06f03d4490eba0.png" alt="" width="736" height="268" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Madison</span>
+              <p class="claim">Signed <span class="pink">two clients in one day</span>, $5,000 + $7,500 paid in full.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a2511cff607d4002bb12456.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a2511cff607d4002bb12456.png" alt="" width="726" height="300" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Jordan</span>
+              <p class="claim"><span class="pink">$18K project, a $3K/mo retainer, and an $8K job</span>, all in one stretch.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a25118cfc95b24549a6dfd0.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a25118cfc95b24549a6dfd0.png" alt="" width="670" height="324" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Dallas</span>
+              <p class="claim">Sold her <span class="pink">first deal, a $10K offer</span>.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a25123df607d4002bb12778.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a25123df607d4002bb12778.png" alt="" width="728" height="264" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Savannah</span>
+              <p class="claim">Closed <span class="pink">$9K MRR in one day</span> in new clients from running ads.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a3ad001967e20d627c1362a.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6a3ad001967e20d627c1362a.png" alt="" width="1856" height="516" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Bethany</span>
+              <p class="claim">Closed two more deals in one week: <span class="pink">$15K paid in full</span> for a year-long acquisition client, plus a $16K deal on a two-part payment.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5aa5953bd738031c9167e.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5aa5953bd738031c9167e.png" alt="" width="381" height="222" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Tracey</span>
+              <p class="claim">Closed a <span class="pink">$5K website deal for a med spa</span> through ads, and added $38K in new client revenue in September. $16K of it came from ads launched four weeks earlier, on $2,000 in ad spend.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5ab01b04308f7529f2119.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5ab01b04308f7529f2119.png" alt="" width="378" height="291" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">DJ Kim</span>
+              <p class="claim">Started his first campaign with Limitless, in the home-service VA niche, and closed his first deal a week later: <span class="pink">$24K ARR</span>, with the deposit paid on the call.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5ab769a20764dbf670574.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5ab769a20764dbf670574.png" alt="" width="382" height="251" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Lauren</span>
+              <p class="claim">Closed her first client at <span class="pink">$10K paid in full</span> less than a week after her ads went live, then a $14K deal the same day.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5ac489a20764dbf671261.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5ac489a20764dbf671261.png" alt="" width="456" height="316" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Lou Lou</span>
+              <p class="claim">Closed two <span class="pink">TikTok Shop management retainers</span> in a week. Officially past $30K MRR.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5acb853bd738031c93fc3.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5acb853bd738031c93fc3.png" alt="" width="463" height="216" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Jordan</span>
+              <p class="claim">Added <span class="pink">$17,000 in new MRR</span> in a single week, $4,500 of it in Meta ad management.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b7891f3be2be1b9cb86d.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b7891f3be2be1b9cb86d.png" alt="" width="449" height="179" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Karl</span>
+              <p class="claim">Closed a <span class="pink">$119K deal</span>, paid across four months.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b32a1f3be2be1b9c7242.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b32a1f3be2be1b9c7242.png" alt="" width="467" height="198" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Thomas</span>
+              <p class="claim">Finished his best month yet: <span class="pink">7 closes at a 35% close rate</span> and $54.5K in new revenue.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b39f1f3be2be1b9c7a5e.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b39f1f3be2be1b9c7a5e.png" alt="" width="458" height="222" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Alexis</span>
+              <p class="claim">Collected <span class="pink">$134K in cash</span> in July, with $110,300 of it in new revenue.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b4ae53bd738031c9d1c4.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b4ae53bd738031c9d1c4.png" alt="" width="448" height="183" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Kyle</span>
+              <p class="claim">Closed <span class="pink">$15K up front plus $10K a month</span>, with residuals on top.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b5073dbd5f2bbbb92186.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b5073dbd5f2bbbb92186.png" alt="" width="463" height="149" loading="lazy" decoding="async"></a>
+          </div>
+          <div class="scard">
+            <div class="scard-body">
+              <span class="who">Cyndi</span>
+              <p class="claim">Closed a multi-location dentistry office at <span class="pink">$60K a month for 12 months</span>, management fee plus ad spend, using the guarantee Limitless helped her build.</p>
+            </div>
+            <a class="shot" href="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b7f71f3be2be1b9cbfe2.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot full size"><img src="https://assets.cdn.filesafe.space/hdnL9ecvxPlBE2LDeUER/media/6ab5b7f71f3be2be1b9cbfe2.png" alt="" width="456" height="188" loading="lazy" decoding="async"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="lmt-cta">
+      <a href="#book-call">See If Your Agency Qualifies</a>
+      <span class="note">Takes less than 60 seconds.</span>
+    </div>
+  </div>
+</section>
+
+<div class="tfloat" id="tfloat" aria-hidden="true">
+  <a href="#book-call" tabindex="-1">See If Your Agency Qualifies ↑</a>
+</div>
+
+<div class="lmt-footer">
+  <img class="footer-mark" src="https://limitlessagency.io/assets/logo-mark.png" alt="Limitless Agency" width="44" height="44" loading="lazy" decoding="async">
+  <div class="links">
+    <a href="https://www.limitlessagency.io/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+    <a href="https://www.limitlessagency.io/fulfillment-policy" target="_blank" rel="noopener noreferrer">Fulfillment Policy</a>
+    <a href="https://limitlessagency.io/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+  </div>
+  <p class="copy">&copy; 2026 Limitless Agency. All Rights Reserved.</p>
+  <div class="legal">
+    <p>This site is not a part of the Facebook website or Meta Platforms, Inc. Additionally, this site is not endorsed by Facebook or Meta in any way. FACEBOOK is a trademark of Meta Platforms, Inc.</p>
+    <p>Results shown are from specific agencies and are not typical. Your results depend on your agency, your market, and how you implement. Our guarantee is subject to the terms of your agreement.</p>
+  </div>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var items = document.querySelectorAll('.faq-item');
+  items.forEach(function(item){
+    var q = item.querySelector('.faq-q');
+    var body = item.querySelector('.faq-body');
+    q.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      items.forEach(function(o){
+        if(o!==item){ o.classList.remove('open'); o.querySelector('.faq-body').style.maxHeight=null; o.querySelector('.faq-q').setAttribute('aria-expanded','false'); }
+      });
+      if(isOpen){ item.classList.remove('open'); body.style.maxHeight=null; q.setAttribute('aria-expanded','false'); }
+      else { item.classList.add('open'); body.style.maxHeight = body.scrollHeight+'px'; q.setAttribute('aria-expanded','true'); }
+    });
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  var grid=document.getElementById('tgrid'), wrap=document.getElementById('tscroll'),
+      stage=document.getElementById('tstage'), bar=document.getElementById('trailBar');
+  if(grid && wrap && stage){
+    var frameH=0, contentH=0, stickyTop=24;
+    function measure(){
+      stickyTop = parseFloat(getComputedStyle(wrap.parentNode).top) || 0;
+      frameH = Math.min(860, window.innerHeight - stickyTop*2);
+      wrap.style.height = frameH + 'px';
+      contentH = grid.scrollHeight;
+      /* the stage is as tall as the content, so the page scrolls exactly as far as the cards need */
+      stage.style.height = Math.max(contentH, frameH) + 'px';
+      if(bar) bar.style.height = Math.max(8, Math.min(100, frameH/contentH*100)) + '%';
+      move();
+    }
+    function move(){
+      var max = Math.max(0, contentH - frameH);
+      var y = Math.min(max, Math.max(0, stickyTop - stage.getBoundingClientRect().top));
+      grid.style.transform = 'translate3d(0,' + (-y) + 'px,0)';
+      wrap.classList.toggle('at-end', y >= max - 2);
+      if(bar){ var p = max ? y/max : 0; var h = bar.offsetHeight, H = bar.parentNode.offsetHeight; bar.style.top = (p*(H-h)) + 'px'; }
+    }
+    var ticking=false;
+    function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(function(){ ticking=false; move(); }); } }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    document.addEventListener('scroll', onScroll, {passive:true, capture:true});
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    grid.querySelectorAll('img').forEach(function(im){ if(!im.complete) im.addEventListener('load', measure); });
+    if('ResizeObserver' in window){ new ResizeObserver(measure).observe(grid); }
+    measure();
+  }
+
+  /* videos load only when tapped */
+  function loadVid(el){
+    var vid=el.getAttribute('data-vid');
+    if(el.getAttribute('data-loaded')) return; el.setAttribute('data-loaded','1');
+    var target=document.createElement('div');
+    target.id='vidalytics_embed_'+vid;
+    target.style.cssText='width:100%;position:relative;padding-top:56.25%;';
+    el.innerHTML=''; el.appendChild(target);
+    el.style.cursor='default'; el.style.background='transparent'; el.style.paddingTop='0'; el.style.border='0';
+    (function (v, i, d, a, l, y, t, c, s) {
+      y='_'+d.toLowerCase();c=d+'L';if(!v[d]){v[d]={};}if(!v[c]){v[c]={};}if(!v[y]){v[y]={};}var vl='Loader',vli=v[y][vl],vsl=v[c][vl+'Script'],vlf=v[c][vl+'Loaded'],ve='Embed';if(!vsl){vsl=function(u,cb){if(t){cb();return;}s=i.createElement("script");s.type="text/javascript";s.async=1;s.src=u;if(s.readyState){s.onreadystatechange=function(){if(s.readyState==="loaded"||s.readyState=="complete"){s.onreadystatechange=null;vlf=1;cb();}};}else{s.onload=function(){vlf=1;cb();};}i.getElementsByTagName("head")[0].appendChild(s);};}vsl(l+'loader.min.js',function(){if(!vli){var vlc=v[c][vl];vli=new vlc();}vli.loadScript(l+'player.min.js',function(){var vec=v[d][ve];t=new vec();t.run(a);});});
+    })(window, document, 'Vidalytics', 'vidalytics_embed_'+vid, 'https://fast.vidalytics.com/embeds/wQb7gRUB/'+vid+'/');
+  }
+  document.querySelectorAll('.tcard .vlazy').forEach(function(el){
+    el.setAttribute('role','button'); el.setAttribute('tabindex','0'); el.setAttribute('aria-label','Play testimonial video');
+    el.addEventListener('click',function(){ loadVid(el); });
+    el.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); loadVid(el); } });
+  });
+
+  /* load each player (and its preview thumbnail) as it nears view inside the panel.
+     Plain position checks instead of IntersectionObserver, so it works the same
+     inside page builders and embedded previews. */
+  var vids=[].slice.call(document.querySelectorAll('.tcard .vlazy'));
+  var panel=document.getElementById('tscroll');
+  var pending=false;
+  function checkVids(){
+    pending=false;
+    if(!panel) return;
+    var pr=panel.getBoundingClientRect();
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    if(pr.top > vh+600 || pr.bottom < -600) return;           /* panel not near the screen yet */
+    vids=vids.filter(function(el){
+      if(el.getAttribute('data-loaded')) return false;
+      var r=el.getBoundingClientRect();
+      if(r.top < pr.bottom+500 && r.bottom > pr.top-500){ loadVid(el); return false; }
+      return true;
+    });
+  }
+  function queue(){ if(!pending){ pending=true; window.requestAnimationFrame(checkVids); } }
+  window.addEventListener('scroll',queue,{passive:true});
+  document.addEventListener('scroll',queue,{passive:true, capture:true}); /* catches body/html scrolling too */
+  window.addEventListener('resize',queue);
+  window.addEventListener('load',queue);
+  queue();
+})();
+</script>
+
+
+<script>
+(function(){
+  var fl=document.getElementById('tfloat'), stage=document.getElementById('tstage');
+  if(!fl || !stage) return;
+  var link=fl.querySelector('a'), ticking=false;
+  function upd(){
+    ticking=false;
+    var r=stage.getBoundingClientRect(), vh=window.innerHeight;
+    /* on once the testimonials fill the screen, off before the section's own button comes up */
+    var on = r.top < vh*0.35 && r.bottom > vh*0.85;
+    fl.classList.toggle('show', on);
+    fl.setAttribute('aria-hidden', on ? 'false' : 'true');
+    link.setAttribute('tabindex', on ? '0' : '-1');
+  }
+  function q(){ if(!ticking){ ticking=true; requestAnimationFrame(upd); } }
+  window.addEventListener('scroll',q,{passive:true});
+  document.addEventListener('scroll',q,{passive:true,capture:true});
+  window.addEventListener('resize',q);
+  upd();
+})();
+</script>
+
+
+
+
+<script>
+/* bio photos: load only when scrolled near (keeps bandwidth for the VSL on first load) */
+(function(){var imgs=[].slice.call(document.querySelectorAll('img[data-bio-src]'));function go(i){if(i.dataset.bioSrc){i.src=i.dataset.bioSrc;i.removeAttribute('data-bio-src');}}
+if(!('IntersectionObserver' in window)){imgs.forEach(go);return;}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go(e.target);io.unobserve(e.target);}});},{rootMargin:'400px 0px'});imgs.forEach(function(i){io.observe(i);});})();
+</script>
+</body>
+</html>
